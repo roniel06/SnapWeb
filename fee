@@ -1,0 +1,45 @@
+
+    var video = document.querySelector("#camaraOn");
+    canvas= document.querySelector("#fotoTomada");
+
+    canvas.width=1080;
+    canvas.height=650;
+
+    canvas.getContext("2d").drawImage(video,0,0,1080,650);
+    fot= canvas.toDataURL("image/png");
+
+	video.style.visibility="hidden";
+	canvas.style.visibility="visible";
+
+
+
+     <canvas id="fotoTomada" width="1" height="1"></canvas>
+
+
+
+
+
+     var video;
+     video = document.querySelector("#camaraOn");
+
+     btnGuard= document.createElement("button");
+     btnGuard.setAttribute("id","btnGuard");
+     btnGuard.className="medium green";
+
+     canvas = document.createElement('canvas');
+          let ctx = canvas.getContext('2d');
+          let { left, top } = video.getBoundingClientRect();
+
+          canvas.width = '1080';
+          canvas.height = '650';
+
+          canvas.style.left = `${left}px`;
+          canvas.style.top = `${top}px`;
+          canvas.style.position = 'absolute';
+          foto= canvas.toDataURL("image/png");
+
+          document.body.appendChild(canvas);
+          ctx.drawImage(video, 0, 0, 1080, 650);
+
+         // photoStream.getTracks()[0].stop();
+          video.remove();

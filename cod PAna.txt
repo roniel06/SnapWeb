@@ -1,0 +1,48 @@
+let video;
+    let canvas;
+    let btnTakePhoto;
+    let photoStream;
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      createElements();
+
+      navigator
+        .mediaDevices
+        .getUserMedia({ video: true })
+        .then(stream => {
+          photoStream = stream;
+          video.src = window.URL.createObjectURL(stream);
+          video.play();
+        });
+
+      btnTakePhoto.addEventListener('click', function () {
+        canvas = document.createElement('canvas');
+        let ctx = canvas.getContext('2d');
+        let { left, top } = video.getBoundingClientRect();
+
+        canvas.width = '600';
+        canvas.height = '400';
+
+        canvas.style.left = `${left}px`;
+        canvas.style.top = `${top}px`;
+        canvas.style.position = 'absolute';
+
+        document.body.appendChild(canvas);
+        ctx.drawImage(video, 0, 0, 600, 400);
+
+        photoStream.getTracks()[0].stop();
+        video.remove();
+      });
+    }
+
+    function createElements () {
+      video = document.createElement('video');
+      video.width = '600';
+      video.height = '400';
+      video.autoplay = true;
+      btnTakePhoto = document.createElement('button');
+      btnTakePhoto.textContent = 'Take photo';
+
+      document.body.appendChild(video);
+      document.body.appendChild(btnTakePhoto);
+    }
